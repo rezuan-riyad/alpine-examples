@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js"></script>
+  <title>Todo</title>
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .todo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div x-data="todoApp()" class="container">
+    <form @submit.prevent="addTodo">
+      <input placeholder="Type ... " x-model="todo" />
+      <p>User Typing Text:<span x-text="todo"></span></p>
+    </form>
+    <template x-show="todos.length" x-for="todo in todos" :key="todo.id">
+      <div class="todo">
+        <input type="checkbox" x-model="todo.done" />
+        <p x-text="todo.text"></p>
+        <button @click="deleteTodo(todo)" x-bind:disabled="!todo.done">X</button>
+      </div>
+      <hr />
+    </template>
+  </div>
+
+  <script>
+    const todoApp = () => ({
+      todo: '',
+      todos: [],
+      genUniqueId() {
+        return window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16);
+      },
+      addTodo() {
+        this.todos.push({ id: this.genUniqueId(), text: this.todo, done: false });
+        this.todo = '';
+      },
+      deleteTodo(todo) {
+        console.log(todo)
+        this.todos = this.todos.filter(t => t.id !== todo.id)
+      }
+    })
+  </script>
+</body>
+
+</html>

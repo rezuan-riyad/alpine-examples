@@ -59,27 +59,27 @@
 
 
       <!--* Todo Example -->
-      <div x-data="$store.todoStore" x-show="$store.navs.items[2].show">
+      <div x-data="$store.todos" x-show="$store.navs.items[2].show">
         <div class="content-child">
-          <form @submit.prevent="$store.todoStore.addTodo()">
+          <form @submit.prevent="addTodo()">
             <label>Title</label>
-            <input x-model="$store.todoStore.title" id="todo-title" />
+            <input x-model="title" id="todo-title" />
             <label>Description</label>
-            <textarea x-model="$store.todoStore.desc"></textarea>
+            <textarea x-model="desc"></textarea>
             <button class="main add-todo" type="submit">Add Todo</button>
           </form>
         </div>
         <br />
-        <div class="content-child">
+        <div class="content-child" x-show="todos.length">
           <div class="todo-items">
-            <template x-for="todo in $store.todoStore.todos" :key="todo.id">
+            <template x-for="todo in todos" :key="todo.id">
               <div class="todo-item">
-                <input type="checkbox" x-bind:checked="todo.done" id="todo-checkbox" />
+                <input type="checkbox" x-model="todo.done" id="todo-checkbox" />
                 <div class="item-content">
                   <h3 x-text="todo.title"></h3>
                   <p x-text="todo.desc"></p>
                 </div>
-                <button class="del-btn">X</button>
+                <button :class="!todo.done ? 'del-btn disable' : 'del-btn'" @click="deleteTodo(todo)" x-bind:disabled="!todo.done">X</button>
               </div>
             </template>
           </div>

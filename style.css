@@ -124,3 +124,7 @@ button {
   align-items: center;
   justify-content: center;
 }
+
+.disable{
+  background-color:rgb(209, 128, 128); ;
+}

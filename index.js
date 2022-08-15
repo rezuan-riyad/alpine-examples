@@ -28,8 +28,8 @@ document.addEventListener('alpine:init', () => {
   })
 
 
-  Alpine.store('todoStore', {
-    title: 'Riyad',
+  Alpine.store('todos', {
+    title: '',
     desc: '',
     todos: [
       {
@@ -54,21 +54,23 @@ document.addEventListener('alpine:init', () => {
     //     console.log(this.todos)
     //   })
     // },
+    genUniqueId() {
+      return window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16);
+    },
+
     addTodo() {
-      let uid = window.crypto.getRandomValues(new Uint32Array(1))[0].toString(16);
-      console.log('CLICKED')
-      console.log(this.todos);
-      console.log(this.title);
-      console.log(this.desc)
-      let tmp = {
-        id: 3,
-        title: 'New Title',
-        desc: 'New Desc',
+      if (!this.title) return;
+
+      this.todos.push({
+        id: this.genUniqueId(),
+        title: this.title,
+        desc: this.desc,
         done: false
-      }
-      // console.log(this.todos)
-      this.todos = this.todos.push(tmp);
-      // console.log(this.todos)
-    }
+      })
+    },
+
+    deleteTodo(todo) {
+      this.todos = this.todos.filter(t => t.id !== todo.id)
+    },
   })
 })
