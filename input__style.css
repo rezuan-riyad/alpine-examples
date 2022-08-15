@@ -1,0 +1,22 @@
+input,
+textarea {
+  padding: .5rem 1rem;
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+}
+
+textarea {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+label {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 2rem;
+  color: rgb(49, 49, 49);
+}

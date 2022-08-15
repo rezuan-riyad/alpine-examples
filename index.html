@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpine JS</title>
+  <link rel="stylesheet" type="text/css" href="input__style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>Let's Learn Apline JS</h1>
+    </div>
+  </header>
+  <div class="container">
+    <div x-data="$store.navs">
+      <nav>
+        <ul>
+          <template x-for="item in $store.navs.items">
+            <li x-text="item.title" @click="$store.navs.navHandler(item)"></li>
+          </template>
+        </ul>
+      </nav>
+
+      <!-- Counter Example -->
+      <template x-if="$store.navs.items[0].show">
+        <div x-data="{ count: 0 }" class="content-child">
+          <h2 x-text="count*2"></h2>
+          <button @click="count++" class="main">Increment</button>
+          <button @click="count--">Decrement</button>
+        </div>
+      </template>
+
+      <!-- Search Example -->
+      <template x-if="$store.navs.items[1].show">
+        <div class="content-child" x-transition x-data="{
+          search: '',
+          items: ['foo', 'bar', 'baz'],
+          get filteredItems() {
+              return this.items.filter(
+                i => i.startsWith(this.search)
+              )
+          }
+      }">
+          <input x-model="search" placeholder="Search...">
+
+          <ul class="search-items">
+            <template x-for="item in filteredItems" :key="item">
+              <li x-text="item"></li>
+            </template>
+          </ul>
+        </div>
+      </template>
+
+
+      <!--* Todo Example -->
+      <div x-data="$store.todoStore" x-show="$store.navs.items[2].show">
+        <div class="content-child">
+          <form @submit.prevent="$store.todoStore.addTodo()">
+            <label>Title</label>
+            <input x-model="$store.todoStore.title" id="todo-title" />
+            <label>Description</label>
+            <textarea x-model="$store.todoStore.desc"></textarea>
+            <button class="main add-todo" type="submit">Add Todo</button>
+          </form>
+        </div>
+        <br />
+        <div class="content-child">
+          <div class="todo-items">
+            <template x-for="todo in $store.todoStore.todos" :key="todo.id">
+              <div class="todo-item">
+                <input type="checkbox" x-bind:checked="todo.done" id="todo-checkbox" />
+                <div class="item-content">
+                  <h3 x-text="todo.title"></h3>
+                  <p x-text="todo.desc"></p>
+                </div>
+                <button class="del-btn">X</button>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>
